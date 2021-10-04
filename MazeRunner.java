@@ -1,0 +1,105 @@
+/* 
+Maze runner
+Mehak Maqsood
+CS114
+*/
+import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.File;
+import java.util.Scanner;
+
+public class MazeRunner
+{
+     public static void main (String[] args) throws FileNotFoundException
+   {
+      int start_row, start_col;
+
+      Scanner scan= new Scanner(System.in);
+      System.out.print("Enter the name of the maze file\n");
+      
+      String fileName=scan.nextLine();
+   
+      scan = new Scanner(new File(fileName));
+      
+      int row=scan.nextInt();
+      int col=scan.nextInt();
+      scan.nextLine();
+   
+   
+      char [][] maze = new char[row][col];
+      start_row=-1;
+      start_col=-1;
+   
+      for (int i=0; i<row;i++)
+      { String line= scan.nextLine();
+        for(int j=0; j< col; j++)
+        {   maze[i][j]=line.charAt(j);
+            if (maze[i][j]=='+')
+            {  start_row=i;
+               start_col=j;
+            }
+        }
+      }
+
+   maze[start_row][start_col]=' ';
+   
+   if(solveMaze(maze, start_row, start_col))
+      {System.out.println( " Maze is solved\n");}
+   else
+      {System.out.println("maze cannot be solved");} 
+   
+   PrintWriter output = new PrintWriter(new File (" MazeRunner.txt "));
+   for (char[] ro: maze)
+   {
+       output.println( new String(ro));
+   }
+   
+   output.close();
+   System.out.println(" Please check the MazeRunner file ");
+
+
+   }
+   
+     static boolean solveMaze(char maze [][], int r, int c)
+   {
+      if ( r<0|| c<0 || r>=maze.length|| c>= maze[r].length || maze[r][c]== 'X' || maze[r][c]=='.' || maze[r][c]== '+')
+       {return false;}
+      
+      if (r<0|| c<0|| r>= maze.length|| c>= maze[0].length)
+         {return false;}
+      
+      if(maze[r][c] == '-')
+         {maze[r][c]= '+';
+         return true;}
+      
+      maze[r][c]='+';
+      
+      boolean checker = false;
+         
+      
+      if (solveMaze(maze,r,c+1))
+      {  return true;
+         
+      }
+      if (solveMaze(maze,r,c-1))
+      {  return true;
+         
+      }
+      if(solveMaze(maze,r-1,c))
+      {  return true;
+         
+      }
+      if (solveMaze(maze,r+1,c))
+      {  return true;
+         
+      }
+      if (!checker)
+      { maze[r][c]='.';}
+      
+      return checker;
+   }
+   
+   
+   
+}
