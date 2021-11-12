@@ -1,0 +1,66 @@
+import java.util.Iterator;
+
+public class SortedList2<E extends Comparable<? super E>> extends List<E>{ 
+   
+   //iterator given
+   public Iterator<E> iterator()
+   { return new Iterator<E>()
+       {private Node<E> curr=head;
+       public boolean hasNext()
+       { return curr!= null;}
+       public E next()
+       { E next= curr.data;
+         curr=curr.next;
+         return next;}
+        };
+   }
+   
+   //insersion using recursion
+   private Node<E> insert(Node <E> curr, Node<E> temp)
+   { if( curr==null) // if the list is empty
+      return temp;
+     if(temp.data.compareTo(curr.data)<0)// basecase 
+     { temp.next=curr;
+       return temp; }
+     curr.next=insert(curr.next,temp);
+     return curr;
+    }
+   public void insert(E data)//overrides method insert for abstract
+   { head=insert(head, new Node<>(data));}
+    
+    //removal using recursion
+    private Node<E> remove( Node<E> curr,E data)
+    { if(curr==null)
+       return null;
+      if(data.compareTo(curr.data)==0)// basecase
+       return curr.next;
+      curr.next=remove(curr.next,data);
+      return curr;
+    }
+    public void remove(E data)//overrides method remove for abstract
+    { head= remove(head,data);}
+    
+    //retrieval using recur
+    private E retrieve ( Node<E> curr, int num, int index)
+    { if (num<=index)//basecase
+      {return curr==null ? null : curr.data;}
+     return retrieve(curr.next,num+1,index);
+    }
+    public E retrieve( int index)//overrides method retrieve for abstract
+    { int num=0;
+      return retrieve(head,num,index);}    
+    
+    //search using recur
+    private boolean search(Node<E> curr, E data)
+    { if( curr==null)//if empty
+         return false;
+      if(data.compareTo(curr.data)==0)//basecase
+         return true;   
+      return search( curr.next, data);
+    }
+    public boolean search(E data)//overrides method search for abstract
+   { return search(head, data);}
+      
+
+}
+   
