@@ -1,7 +1,7 @@
 /* 
-Maze runner
+Snake runner
 Mehak Maqsood
-CS114
+
 */
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
